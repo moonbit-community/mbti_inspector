@@ -1,0 +1,16 @@
+{
+  "name": "myfreess/mbti_inspector",
+  "version": "0.1.0",
+  "deps": {
+    "moonbitlang/parser": {
+      "path": "parser"
+    },
+    "moonbitlang/x": "0.4.26"
+  },
+  "readme": "README.md",
+  "repository": "",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "description": "",
+  "source": "src"
+}

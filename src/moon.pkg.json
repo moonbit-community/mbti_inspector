@@ -1,0 +1,14 @@
+{
+    "is-main": true,
+    "import": [
+        { "path": "moonbitlang/parser/lib/mbti_ast", "alias": "mbti" },
+        "moonbitlang/parser/lib/mbti_parser",
+        "moonbitlang/parser/lib/lexer",
+        "moonbitlang/parser/lib/ast",
+        "moonbitlang/parser/lib/tokens",
+        "moonbitlang/parser/lib/ast_types",
+        "moonbitlang/x/fs",
+        "moonbitlang/x/sys",
+        "moonbitlang/x/encoding"
+    ]
+}
