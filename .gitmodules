@@ -1,4 +1,3 @@
 [submodule "parser"]
 	path = parser
 	url = git@github.com:moonbitlang/parser.git
-	branch = add-parser
