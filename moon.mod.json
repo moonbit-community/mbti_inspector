@@ -5,7 +5,8 @@
     "moonbitlang/parser": {
       "path": "parser"
     },
-    "moonbitlang/x": "0.4.26"
+    "moonbitlang/x": "0.4.26",
+    "Yoorkin/ArgParser": "0.1.9"
   },
   "readme": "README.md",
   "repository": "",

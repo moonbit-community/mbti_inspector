@@ -1,8 +1,20 @@
 ///|
 fn main {
-  guard @sys.get_cli_args() is [_, ty] else {
-    println("Usage: mbti_inspector <type>\n")
-    panic()
+  let argv = @sys.get_cli_args()[1:].to_array()
+  let usage =
+    #| usage:
+    #|   mbti_inspector [options] <type>
+  let types = []
+  @ArgParser.parse(
+    [("--drop-deprecated", "-d", Set(drop_derecated), "drop deprecated methods")],
+    fn (ty) { types.push(ty) },
+    usage,
+    argv
+  )
+  guard types is [ty, ..] else {
+    println(usage)
+    println("Error: <type> argument not found")
+    return
   }
   try {
     let (method_table, impl_table) = read_method_set_from_type(ty)

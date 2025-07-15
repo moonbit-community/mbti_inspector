@@ -9,6 +9,7 @@
         "moonbitlang/parser/lib/ast_types",
         "moonbitlang/x/fs",
         "moonbitlang/x/sys",
-        "moonbitlang/x/encoding"
+        "moonbitlang/x/encoding",
+        "Yoorkin/ArgParser"
     ]
 }

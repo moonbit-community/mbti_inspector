@@ -93,7 +93,9 @@ fn extract_type_name(ty : @ast.Type) -> String? {
   }
 }
 
+// (method_name, source, location)
 typealias @hashmap.T[String, Array[(String, @string.View, String)]] as MethodTable
+// (trait_name, source, location)
 typealias @hashmap.T[String, Array[(String, @string.View, String)]] as ImplTable
 
 fn read_method_set_from_type(ty : String) -> (MethodTable, ImplTable) raise Error {
@@ -126,6 +128,9 @@ fn read_method_set_from_type(ty : String) -> (MethodTable, ImplTable) raise Erro
     let source = split_bytes(source)
     for sig in mbti.sigs {
       if sig.0 is Func(fnsig) && fnsig.type_name is Some(ty_name) && ty_name.name[:] == ty {
+        if drop_derecated.val && fnsig.attr.any(a => a.0 == "deprecated") {
+          continue
+        }
         let fn_line = find_method_from_source(path~, source, type_name = ty_name.name, fn_name = fnsig.name.name)
         let location = {
           let filename = if fnsig.type_params is More(type_param, ..) { 
