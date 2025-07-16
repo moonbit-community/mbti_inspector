@@ -17,13 +17,21 @@ fn main {
     return
   }
   try {
+    let bold = @chalk.chalk().modifier(Bold)
+    let dim = @chalk.chalk().modifier(Dim)
+    let blue = @chalk.chalk().color(Blue).modifier(Bold)
     let (method_table, impl_table) = read_method_set_from_type(ty)
     for path, methods in method_table {
       for method_with_place in methods {
-        println("\{method_with_place.1}        // \{method_with_place.2}")
+        let render = if method_with_place.1.has_prefix("[deprecated] ") {
+          dim
+        } else {
+          bold
+        }
+        println(render.render("\{method_with_place.1}        // \{method_with_place.2}"))
       }
       for impl_with_place in impl_table.get(path).unwrap() {
-        println("\{impl_with_place.1}        // \{impl_with_place.2}")
+        println(blue.render("\{impl_with_place.1}        // \{impl_with_place.2}"))
       }
     }
   } catch {

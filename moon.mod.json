@@ -6,7 +6,8 @@
       "path": "parser"
     },
     "moonbitlang/x": "0.4.26",
-    "Yoorkin/ArgParser": "0.1.9"
+    "Yoorkin/ArgParser": "0.1.9",
+    "Lampese/moonbit-chalk": "0.4.0"
   },
   "readme": "README.md",
   "repository": "",

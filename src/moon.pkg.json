@@ -10,6 +10,7 @@
         "moonbitlang/x/fs",
         "moonbitlang/x/sys",
         "moonbitlang/x/encoding",
-        "Yoorkin/ArgParser"
+        "Yoorkin/ArgParser",
+        { "path": "Lampese/moonbit-chalk",  "alias": "chalk"}
     ]
 }

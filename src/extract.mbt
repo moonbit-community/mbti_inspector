@@ -14,7 +14,10 @@ fn get_mbti_path_set_from_base(base : String) -> Array[String] raise Error {
   let path_set = {
     let q = @queue.new()
     for path in path_set {
-      q.push(base + "/" + path)
+      // ignore target directory
+      if !(base == "." && path == "target") {
+        q.push(base + "/" + path)
+      }
     } else {
       q
     }
@@ -131,7 +134,10 @@ fn read_method_set_from_type(ty : String) -> (MethodTable, ImplTable) raise Erro
         if drop_derecated.val && fnsig.attr.any(a => a.0 == "deprecated") {
           continue
         }
-        let fn_line = find_method_from_source(path~, source, type_name = ty_name.name, fn_name = fnsig.name.name)
+        let mut fn_line = find_method_from_source(path~, source, type_name = ty_name.name, fn_name = fnsig.name.name)
+        if fnsig.attr.any(a => a.0 == "deprecated") {
+          fn_line = "[deprecated] \{fn_line} "
+        }
         let location = {
           let filename = if fnsig.type_params is More(type_param, ..) { 
             type_param.name.loc.start.fname
