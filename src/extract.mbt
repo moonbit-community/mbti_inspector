@@ -136,7 +136,7 @@ fn read_method_set_from_type(ty : String) -> (MethodTable, ImplTable) raise Erro
         }
         let mut fn_line = find_method_from_source(path~, source, type_name = ty_name.name, fn_name = fnsig.name.name)
         if fnsig.attr.any(a => a.0 == "deprecated") {
-          fn_line = "[deprecated] \{fn_line} "
+          fn_line = "#deprecated\n\{fn_line} "
         }
         let location = {
           let filename = if fnsig.type_params is More(type_param, ..) { 
