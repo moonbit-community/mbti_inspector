@@ -6,7 +6,8 @@ fn main {
     #|   mbti_inspector [options] <type>
   let types = []
   @ArgParser.parse(
-    [("--drop-deprecated", "-d", Set(drop_derecated), "drop deprecated methods")],
+    [("--drop-deprecated", "-d", Set(drop_derecated), "drop deprecated methods"),
+     ("--colorful", "-c", Set(colorful_output), "use colorful output")],
     fn (ty) { types.push(ty) },
     usage,
     argv
@@ -17,6 +18,7 @@ fn main {
     return
   }
   try {
+    let empty = @chalk.chalk()
     let bold = @chalk.chalk().modifier(Bold)
     let dim = @chalk.chalk().modifier(Dim)
     let blue = @chalk.chalk().color(Blue).modifier(Bold)
@@ -28,10 +30,20 @@ fn main {
         } else {
           bold
         }
-        println("\{method_with_place.1}        // \{method_with_place.2}")
+        let render = if colorful_output.val {
+          render
+        } else {
+          empty
+        }
+        println(render.render("\{method_with_place.1}        // \{method_with_place.2}"))
       }
       for impl_with_place in impl_table.get(path).unwrap() {
-        println("\{impl_with_place.1}        // \{impl_with_place.2}")
+        let render = if colorful_output.val {
+          blue
+        } else {
+          empty
+        }
+        println(render.render("\{impl_with_place.1}        // \{impl_with_place.2}"))
       }
     }
   } catch {
