@@ -5,7 +5,7 @@
     "moonbitlang/parser": {
       "path": "parser"
     },
-    "moonbitlang/x": "0.4.26",
+    "moonbitlang/x": "0.4.30",
     "Yoorkin/ArgParser": "0.1.9",
     "Lampese/moonbit-chalk": "0.4.0"
   },
