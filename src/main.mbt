@@ -13,6 +13,12 @@ fn main {
         Set(drop_derecated),
         "drop deprecated methods",
       ),
+      (
+        "--show-locs",
+        "-s", // TODO: make it optional to have shortcuts
+        Set(show_locs),
+        "show locations",
+      ),
       ("--colorful", "-c", Set(colorful_output), "use colorful output"),
     ],
     fn(ty) { types.push(ty) },
@@ -40,14 +46,23 @@ fn main {
         let render = if colorful_output.val { render } else { empty }
         println(
           render.render(
-            "\{method_with_place.1}        // \{method_with_place.2}",
+            method_with_place.1.to_string() +
+            (if show_locs.val {
+              "        // \{method_with_place.2}"
+            } else {
+              ""
+            }),
+            // "\{method_with_place.1}        // \{method_with_place.2}",
           ),
         )
       }
       for impl_with_place in impl_table.get(path).unwrap() {
         let render = if colorful_output.val { blue } else { empty }
         println(
-          render.render("\{impl_with_place.1}        // \{impl_with_place.2}"),
+          render.render(
+            impl_with_place.1.to_string() +
+            (if show_locs.val { "        // \{impl_with_place.2}" } else { "" }),
+          ),
         )
       }
     }
