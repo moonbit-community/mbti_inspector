@@ -1,3 +1,4 @@
 [submodule "parser"]
 	path = parser
 	url = git@github.com:moonbitlang/parser.git
+	branch = update_mbti_parser

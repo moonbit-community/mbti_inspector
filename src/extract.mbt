@@ -1,6 +1,7 @@
 ///|
-/// 
-fn is_directory(path : String, loc~ : SourceLoc = _) -> Bool raise Error {
+///
+#callsite(autofill(loc))
+fn is_directory(path : String, loc~ : SourceLoc) -> Bool raise Error {
   @fs.is_dir(path) catch {
     err => fail("failed to check if \{path} is a directory: \{err}", loc~)
   }
@@ -75,14 +76,14 @@ test {
 }
 
 ///|
-fn extract_type_name(ty : @ast.Type) -> String? {
+fn extract_type_name(ty : @syntax.Type) -> String? {
   match ty {
-    TName(constr_id, _, ..) =>
+    Name(constr_id~, ..) =>
       match constr_id.id {
         Ident(name~) => Some(name)
         _ => None
       }
-    TOption(_) => Some("Option")
+    Option(_) => Some("Option")
     _ => None
   }
 }
@@ -102,23 +103,24 @@ fn read_method_set_from_type(
 ) -> (MethodTable, ImplTable) raise Error {
   let (pkg, ty) = split_pkg_from_type(ty)
   let mbti_set = read_mbti(pkg)
-  fn get_loc_from_ty(ty : @ast.Type) -> @ast.Location {
+  fn get_loc_from_ty(ty : @syntax.Type) -> @syntax.Location {
     match ty {
-      TAny(loc) => loc
-      TArrow(loc~, ..) => loc
-      TTuple(_, loc~) => loc
-      TName(_, _, loc~) => loc
-      TOption(_, loc~, ..) => loc
-      TObject({ loc, .. }) => loc
+      Any(loc~) => loc
+      Arrow(loc~, ..) => loc
+      Tuple(loc~, ..) => loc
+      Name(loc~, ..) => loc
+      Option(loc~, ..) => loc
+      Object({ loc, .. }) => loc
     }
   }
 
-  fn get_loc_from_err(err : @ast.ErrorType) -> @ast.Location? {
+  fn get_loc_from_err(err : @syntax.ErrorType) -> @syntax.Location? {
     match err {
-      ErrorType(ty~, ..) => Some(get_loc_from_ty(ty))
-      DefaultErrorType(loc, ..) => Some(loc)
+      ErrorType(ty~) => Some(get_loc_from_ty(ty))
+      DefaultErrorType(loc~) => Some(loc)
       NoErrorType => None
       MaybeError(_) => None
+      Noraise(loc~) => Some(loc)
     }
   }
 
@@ -174,7 +176,7 @@ fn read_method_set_from_type(
         ty_name[:] == ty {
         let traitname = match trait_name.name {
           Ident(name~) => name
-          Qualified(pkg~, name~) => "@\{pkg}.\{name}"
+          Dot(pkg~, id~) => "@\{pkg}.\{id}"
         }
         let impl_line = find_impl_from_source(
           path~,
